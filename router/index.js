@@ -119,6 +119,7 @@ router.get("/me", auth, async (req, res) => {
             Employees.findOne({ _id: id })
                 .then((item) => {
                     return res.status(200).send({
+                        shop_id: item.shop_id,
                         name: item.first_name,
                         username: item.username,
                         level: "employee",
