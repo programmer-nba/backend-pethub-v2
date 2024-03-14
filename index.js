@@ -19,6 +19,9 @@ app.use("/pethub/employee", require("./router/user/employee"));
 // Shop หรือ Stock
 app.use("/pethub/shop", require("./router/shop/index"));
 
+// Product
+app.use("/pethub/product", require("./router/product/index"));
+
 const port = process.env.PORT || 4040;
 app.listen(port, () => {
     console.log(`\n-- Listening on port ${port}  --\n`)
