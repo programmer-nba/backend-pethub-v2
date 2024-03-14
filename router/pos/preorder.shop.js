@@ -7,7 +7,7 @@ router.post("/create", auth, pos.create);
 router.post("/pause", auth, pos.pause);
 
 router.get("/all", authAdmin, pos.getPreorderAll);
-router.get("/:id", auth, pos.getPreorderAll);
+router.get("/:id", auth, pos.getPreorderById);
 router.get("/shop/:id", auth, pos.getPreorderByShopId);
 
 module.exports = router;
