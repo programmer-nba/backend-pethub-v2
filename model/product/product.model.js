@@ -27,6 +27,10 @@ const ProductSchema = new mongoose.Schema({
         level4: { type: Number, required: false, default: 0 },
         level5: { type: Number, required: false, default: 0 },
     },
+    product_unit: {
+        detail: { type: String, required: false, default: "" },
+        amount: { type: Number, required: false, default: 0 }
+    },
     status: { type: Boolean, required: false, default: true },
 });
 
@@ -59,6 +63,10 @@ const validate = (data) => {
             level4: Joi.number().default(0),
             level5: Joi.number().default(0),
         },
+        product_unit: Joi.object({
+            detail: Joi.string().default(""),
+            amount: Joi.number().default(0)
+        }),
     });
     return schema.validate(data);
 };

@@ -6,10 +6,11 @@ exports.create = async (req, res) => {
         if (error) {
             return res.status(400).send({ status: false, message: error.details[0].message });
         } else {
-            await new Categorys({
+            const category = await new Categorys({
                 ...req.body,
-            }).save();
-            return res.status(201).send({ message: "สร้างรายงานใหม่เเล้ว", status: true });
+            });
+            category.save();
+            return res.status(201).send({ message: "สร้างรายงานใหม่เเล้ว", status: true, data: category });
         }
     } catch (err) {
         return res.status(500).send({ message: "มีบางอย่างผิดพลาด", status: false });

@@ -14,7 +14,7 @@ router.delete("/:id", authAdmin, Product.deleteProduct);
 
 // Category
 router.post("/category/create", authAdmin, Category.create);
-router.get("/categiry/all", auth, Category.getCategoryAll);
+router.get("/category/all", auth, Category.getCategoryAll);
 router.get("/category/:id", auth, Category.getCategoryById);
 router.put("/category/:id", authAdmin, Category.updateCategory);
 router.delete("/category/:id", authAdmin, Category.deleteCategory);
