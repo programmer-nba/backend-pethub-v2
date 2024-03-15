@@ -15,6 +15,7 @@ app.use("/pethub", require("./router"));
 // User
 app.use("/pethub/admin", require("./router/user/admin"));
 app.use("/pethub/employee", require("./router/user/employee"));
+app.use("/pethub/member", require("./router/user/member"));
 
 // Shop หรือ Stock
 app.use("/pethub/shop", require("./router/shop/index"));

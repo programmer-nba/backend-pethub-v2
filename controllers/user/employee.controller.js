@@ -145,6 +145,21 @@ exports.updatePosition = async (req, res) => {
     } catch (err) {
         return res.status(500).send({ status: false, message: "มีบางอย่างผิดพลาด" });
     }
+};
+
+exports.deletePosition = async (req, res) => {
+    try {
+        const id = req.params.id;
+        const new_employee = await Employees.findById(id);
+        new_employee.type.splice(req.body.position, 1);
+        new_employee.save();
+        return res.send({
+            status: true,
+            message: "ลบสิทธิ์การใช้งานเรียบร้อย",
+        });
+    } catch (err) {
+        return res.status(500).send({ status: false, message: "มีบางอย่างผิดพลาด" });
+    }
 }
 
 exports.deleteEmployee = async (req, res) => {
