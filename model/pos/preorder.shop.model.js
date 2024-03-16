@@ -2,7 +2,7 @@ const mongoose = require("mongoose")
 const Joi = require("joi")
 
 const PreOrderShopSchema = new mongoose.Schema({
-    poshop_invoice: { type: String, required: true },
+    poshop_invoice: { type: String, required: false, default: "" },
     poshop_shop_id: { type: String, required: true },
     poshop_detail: { type: Array, required: false, default: [] },
     poshop_type_price: { type: String, required: false, default: "เงินสด" },
@@ -20,7 +20,7 @@ const PreorderShops = mongoose.model("preorder_shop", PreOrderShopSchema);
 
 const validate = (data) => {
     const schema = Joi.object({
-        poshop_invoice: Joi.string().required().label("กรุณากรอกไอดีรายการด้วย"),
+        poshop_invoice: Joi.string().default(""),
         poshop_shop_id: Joi.string()
             .required()
             .label("กรุณากรอกไอดีร้านที่ทำรายการด้วย"),

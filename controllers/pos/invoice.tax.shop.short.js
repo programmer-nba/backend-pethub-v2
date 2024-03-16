@@ -36,4 +36,4 @@ exports.create = async (req, res) => {
     } catch (err) {
         return res.status(500).send({ message: "มีบางอย่างผิดพลาด", status: false });
     }
-}
+};

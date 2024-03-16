@@ -63,7 +63,6 @@ exports.getMemberById = async (req, res) => {
 exports.getMemberByTel = async (req, res) => {
     try {
         const tel = req.params.id;
-        console.log(tel)
         const member = await Members.findOne({ tel: tel });
         if (!member) {
             return res

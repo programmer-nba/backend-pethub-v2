@@ -9,6 +9,7 @@ const MemberSchema = new mongoose.Schema({
     last_name: { type: String, require: true },
     tel: { type: String, require: true },
     position: { type: String, require: false, default: "" },
+    point: { type: Number, require: false, default: 0 },
     timestamp: { type: String, required: false },
 });
 
@@ -22,6 +23,7 @@ const validate = (data) => {
         last_name: Joi.string().required().label("กรุณากรอกนามสกุล"),
         tel: Joi.string().required().label("กรุณากรอกเบอร์โทรศัพท์"),
         position: Joi.string().default(""),
+        point: Joi.number().default(0),
         timestamp: Joi.string(),
     });
     return schema.validate(data);

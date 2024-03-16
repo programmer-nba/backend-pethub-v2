@@ -28,6 +28,26 @@ exports.pause = async (req, res) => {
     }
 };
 
+exports.updateOrder = async (req, res) => {
+    try {
+        const order = await PreorderShops.findByIdAndUpdate(req.params.id, {
+            ...req.body,
+        }, { useFindAndModify: false, });
+        if (order) {
+            return res
+                .status(200)
+                .send({ message: "แก้ไขข้อมูลประเภทสินค้าสำเร็จ", status: true });
+        } else {
+            return res
+                .status(500)
+                .send({ message: "แก้ไขข้อมูลประเภทสินค้าไม่สำเร็จ", status: false });
+        }
+    } catch (err) {
+        console.log(err)
+        return res.status(500).send({ message: "มีบางอย่างผิดพลาด", status: false });
+    }
+}
+
 exports.getPreorderAll = async (req, res) => {
     try {
         const result = await PreorderShops.find();
