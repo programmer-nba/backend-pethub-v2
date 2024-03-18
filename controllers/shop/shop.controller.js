@@ -1,4 +1,5 @@
 const { Shops, validate } = require("../../model/shop/shop.model");
+const { Stocks } = require("../../model/shop/stock.model");
 const dayjs = require("dayjs");
 
 
@@ -8,10 +9,39 @@ exports.create = async (req, res) => {
         if (error) {
             return res.status(400).send({ status: false, message: error.details[0].message });
         } else {
-            await new Shops({
-                ...req.body,
-            }).save();
-            return res.status(201).send({ message: "สร้างรายงานใหม่เเล้ว", status: true });
+            const shop_name = await Shops.findOne({
+                shop_name: req.body.shop_name,
+            });
+            const shop_number = await Shops.findOne({
+                shop_number: req.body.shop_number,
+            });
+            if (shop_name || shop_number) {
+                return res.status(403).send({ status: false, message: "มีสาขาหรือรหัสสาขานี้ในระบบแล้ว" });
+            } else {
+                const new_data = await new Shops({ ...req.body });
+                const data_store_front = {
+                    shop_id: new_data._id,
+                    shop_type: 'คลังหน้าชั้น',
+                };
+                const data_store_back = {
+                    shop_id: new_data._id,
+                    shop_type: 'คลังสต๊อก',
+                };
+                const data_store_online = {
+                    shop_id: new_data._id,
+                    shop_type: 'คลังออนไลน์',
+                };
+                const data_store_shipping = {
+                    shop_id: new_data._id,
+                    shop_type: 'คลังส่งของ',
+                };
+                await new Stocks(data_store_front).save();
+                await new Stocks(data_store_back).save();
+                await new Stocks(data_store_online).save();
+                await new Stocks(data_store_shipping).save();
+                new_data.save();
+                return res.status(201).send({ message: "สร้างรายงานใหม่เเล้ว", status: true, data: new_data });
+            }
         }
     } catch (err) {
         return res.status(500).send({ message: "มีบางอย่างผิดพลาด", status: false });

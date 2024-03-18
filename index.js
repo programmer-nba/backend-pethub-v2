@@ -17,11 +17,15 @@ app.use("/pethub/admin", require("./router/user/admin"));
 app.use("/pethub/employee", require("./router/user/employee"));
 app.use("/pethub/member", require("./router/user/member"));
 
-// Shop หรือ Stock
+// Shop
 app.use("/pethub/shop", require("./router/shop/index"));
+// Stock
+app.use("/pethub/stock", require("./router/shop/stock"));
 
 // Product
 app.use("/pethub/product", require("./router/product/index"));
+// Brand
+app.use("/pethub/brand", require("./router/brand/index"));
 
 // POS
 app.use("/pethub/preorder/shop", require("./router/pos/preorder.shop"));

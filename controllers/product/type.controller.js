@@ -1,4 +1,4 @@
-const { Products, validate } = require("../../model/product/product.model");
+const { Types, validate } = require("../../model/product/type.model");
 
 exports.create = async (req, res) => {
     try {
@@ -6,28 +6,24 @@ exports.create = async (req, res) => {
         if (error) {
             return res.status(400).send({ status: false, message: error.details[0].message });
         } else {
-            const product = await Products.findOne({ product_barcode: req.body.product_barcode });
-            if (product) {
-                return res.status(403).send({ status: false, message: "สินค้านี้มีในระบบแล้ว" });
-            } else {
-                await new Products({
-                    ...req.body,
-                }).save();
-                return res.status(201).send({ message: "สร้างรายงานใหม่เเล้ว", status: true });
-            }
+            const type = await new Types({
+                ...req.body,
+            });
+            type.save();
+            return res.status(201).send({ message: "สร้างรายงานใหม่เเล้ว", status: true, data: type });
         }
     } catch (err) {
         return res.status(500).send({ message: "มีบางอย่างผิดพลาด", status: false });
     }
 };
 
-exports.getProductAll = async (req, res) => {
+exports.getTypeAll = async (req, res) => {
     try {
-        const product = await Products.find();
-        if (product) {
+        const type = await Types.find();
+        if (type) {
             return res
                 .status(200)
-                .send({ message: "ดึงประเภทสินค้าสำเร็จ", status: true, data: product });
+                .send({ message: "ดึงประเภทสินค้าสำเร็จ", status: true, data: type });
         } else {
             return res
                 .status(500)
@@ -38,14 +34,13 @@ exports.getProductAll = async (req, res) => {
     }
 };
 
-
-exports.getProductById = async (req, res) => {
+exports.getTypeById = async (req, res) => {
     try {
-        const product = await Products.findOne({ _id: req.params.id });
-        if (product) {
+        const type = await Types.findOne({ _id: req.params.id });
+        if (type) {
             return res
                 .status(200)
-                .send({ message: "ดึงประเภทสินค้าสำเร็จ", status: true, data: product });
+                .send({ message: "ดึงประเภทสินค้าสำเร็จ", status: true, data: type });
         } else {
             return res
                 .status(500)
@@ -56,27 +51,10 @@ exports.getProductById = async (req, res) => {
     }
 };
 
-exports.getByBarcode = async (req, res) => {
+exports.updateType = async (req, res) => {
     try {
-        const barcode = req.params.barcode;
-        const product = await Products.findOne({ product_barcode: barcode });
-        if (product) {
-            return res.status(200).send({ status: true, data: product });
-        } else {
-            return res
-                .status(400)
-                .send({ status: false, message: "ไม่พบข้อมูลสินค้า" });
-        }
-    } catch (err) {
-        return res.status(500).send({ message: "มีบางอย่างผิดพลาด" });
-    }
-};
-
-
-exports.updateProduct = async (req, res) => {
-    try {
-        const product = await Products.findByIdAndUpdate(req.params.id, req.body, { useFindAndModify: false, });
-        if (product) {
+        const type = await Types.findByIdAndUpdate(req.params.id, req.body);
+        if (type) {
             return res
                 .status(200)
                 .send({ message: "แก้ไขข้อมูลประเภทสินค้าสำเร็จ", status: true });
@@ -90,11 +68,12 @@ exports.updateProduct = async (req, res) => {
     }
 };
 
-exports.deleteProduct = async (req, res) => {
+
+exports.deleteType = async (req, res) => {
     try {
         const id = req.params.id;
-        const product = await Products.findByIdAndDelete(id);
-        if (!product) {
+        const type = await Types.findByIdAndDelete(id);
+        if (!type) {
             return res.status(404).send({ status: false, message: "ไม่พบประเภทสินค้า" });
         } else {
             return res
