@@ -17,15 +17,19 @@ app.use("/pethub/admin", require("./router/user/admin"));
 app.use("/pethub/employee", require("./router/user/employee"));
 app.use("/pethub/member", require("./router/user/member"));
 
+// Product
+app.use("/pethub/product", require("./router/product/index"));
+app.use("/pethub/product/store", require("./router/product/product.store"));
+// Brand
+app.use("/pethub/brand", require("./router/brand/index"));
+
 // Shop
 app.use("/pethub/shop", require("./router/shop/index"));
 // Stock
 app.use("/pethub/stock", require("./router/shop/stock"));
 
-// Product
-app.use("/pethub/product", require("./router/product/index"));
-// Brand
-app.use("/pethub/brand", require("./router/brand/index"));
+// Order
+app.use("/pethub/order", require("./router/pos/order"));
 
 // POS
 app.use("/pethub/preorder/shop", require("./router/pos/preorder.shop"));

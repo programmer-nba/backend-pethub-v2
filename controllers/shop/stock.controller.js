@@ -51,6 +51,28 @@ exports.getStockById = async (req, res) => {
     }
 };
 
+exports.getStockByShopId = async (req, res) => {
+    try {
+        // const stock = await Stocks.findOne({ _id: req.params.id });
+        const stock = await Stocks.find();
+        const stocks = stock.filter(
+            (el) => el.shop_id === req.params.id,
+        );
+        if (stocks) {
+            return res
+                .status(200)
+                .send({ message: "ดึงข้อมูลคลังสินค้าสำเร็จ", status: true, data: stocks });
+        } else {
+            return res
+                .status(500)
+                .send({ message: "ดึงข้อมูลคลังสินค้าไม่สำเร็จ", status: false });
+        }
+    } catch (err) {
+        return res.status(500).send({ status: false, message: "มีบางอย่างผิดพลาด" });
+    }
+};
+
+
 exports.updateStock = async (req, res) => {
     try {
         const stock = await Stocks.findByIdAndUpdate(req.params.id, req.body);
