@@ -1,4 +1,4 @@
-const { ProductStores } = require("../../model/product/product.store.model");
+const { ProductShops } = require("../../model/product/product.shop.model");
 
 
 exports.create = async (req, res) => {
@@ -7,7 +7,7 @@ exports.create = async (req, res) => {
         if (error) {
             return res.status(400).send({ status: false, message: error.details[0].message });
         } else {
-            const product = await new ProductStores({
+            const product = await new ProductShops({
                 ...req.body,
             });
             product.save();
@@ -20,7 +20,7 @@ exports.create = async (req, res) => {
 
 exports.getProductStoreAll = async (req, res) => {
     try {
-        const product = await ProductStores.find();
+        const product = await ProductShops.find();
         if (product) {
             return res
                 .status(200)
@@ -37,7 +37,7 @@ exports.getProductStoreAll = async (req, res) => {
 
 exports.getProductStoreById = async (req, res) => {
     try {
-        const product = await ProductStores.findOne({ _id: req.params.id });
+        const product = await ProductShops.findOne({ _id: req.params.id });
         if (product) {
             return res
                 .status(200)
@@ -54,7 +54,7 @@ exports.getProductStoreById = async (req, res) => {
 
 exports.updateProductStore = async (req, res) => {
     try {
-        const product = await ProductStores.findByIdAndUpdate(req.params.id, req.body);
+        const product = await ProductShops.findByIdAndUpdate(req.params.id, req.body);
         if (product) {
             return res
                 .status(200)
@@ -72,7 +72,7 @@ exports.updateProductStore = async (req, res) => {
 exports.deleteProductStore = async (req, res) => {
     try {
         const id = req.params.id;
-        const product = await ProductStores.findByIdAndDelete(id);
+        const product = await ProductShops.findByIdAndDelete(id);
         if (!product) {
             return res.status(404).send({ status: false, message: "ไม่พบประเภทสินค้า" });
         } else {
@@ -84,3 +84,29 @@ exports.deleteProductStore = async (req, res) => {
         return res.status(500).send({ status: false, message: "มีบางอย่างผิดพลาด" });
     }
 };
+
+exports.findByShopId = async (req, res) => {
+    const id = req.params.id;
+    try {
+        ProductShops.find({ productShop_id: id })
+            .then((data) => {
+                if (!data)
+                    res
+                        .status(404)
+                        .send({ message: "ไม่สามารถหารายงานนี้ได้", status: false });
+                else res.send({ data, status: true });
+            })
+            .catch((err) => {
+                res.status(500).send({
+                    message: "มีบางอย่างผิดพลาด",
+                    status: false,
+                });
+            });
+    } catch (error) {
+        res.status(500).send({
+            message: "มีบางอย่างผิดพลาด",
+            status: false,
+        });
+    }
+};
+

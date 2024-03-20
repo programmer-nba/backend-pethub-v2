@@ -17,7 +17,6 @@ exports.create = async (req, res) => {
 }
 
 exports.findAll = async (req, res) => {
-    console.log('find all')
     try {
         const order = await Orders.find();
         return res.status(200).send({ status: true, data: order });

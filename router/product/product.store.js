@@ -4,6 +4,8 @@ const authAdmin = require("../../lib/auth.admin");
 const auth = require("../../lib/auth");
 
 // Product Store
+router.get("/shop-id/:id", auth, ProductStore.findByShopId);
+
 router.post("/create", auth, ProductStore.create);
 router.get("/all", auth, ProductStore.getProductStoreAll);
 router.get("/:id", auth, ProductStore.getProductStoreById);

@@ -19,6 +19,10 @@ exports.create = async (req, res) => {
                 return res.status(403).send({ status: false, message: "มีสาขาหรือรหัสสาขานี้ในระบบแล้ว" });
             } else {
                 const new_data = await new Shops({ ...req.body });
+                const data_store_main = {
+                    shop_id: new_data._id,
+                    shop_type: 'คลังใหญ่',
+                };
                 const data_store_front = {
                     shop_id: new_data._id,
                     shop_type: 'คลังหน้าชั้น',
@@ -35,6 +39,7 @@ exports.create = async (req, res) => {
                     shop_id: new_data._id,
                     shop_type: 'คลังส่งของ',
                 };
+                await new Stocks(data_store_main).save();
                 await new Stocks(data_store_front).save();
                 await new Stocks(data_store_back).save();
                 await new Stocks(data_store_online).save();
