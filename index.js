@@ -29,7 +29,7 @@ app.use("/pethub/shop", require("./router/shop/index"));
 app.use("/pethub/stock", require("./router/shop/stock"));
 
 // Order
-// app.use("/pethub/order", require("./router/pos/preorder.store"));
+app.use("/pethub/order", require("./router/pos/order"));
 
 // POS
 app.use("/pethub/preorder/store", require("./router/pos/preorder.store"))

@@ -43,7 +43,7 @@ exports.findAll = async (req, res) => {
 exports.findOne = async (req, res) => {
     const id = req.params.id;
     try {
-        const preorder = await PreOrderStores.findOne({ _id: id });
+        const preorder = await PreOrderStores.findById(id);
         if (!preorder)
             return res.status(404).send({ message: "ไม่สามารถหารายการนี้ได้", status: false });
         return res.status(200).send({ status: true, message: "ดึงข้อมูลสำเร็จ", data: preorder })

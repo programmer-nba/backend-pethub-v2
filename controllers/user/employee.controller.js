@@ -136,7 +136,14 @@ exports.updatePosition = async (req, res) => {
     try {
         const id = req.params.id;
         const new_employee = await Employees.findById(id);
-        new_employee.type = req.body;
+        for (let item of req.body) {
+            const position = new_employee.type.find(
+                (el) => el === item
+            );
+            if (!position) {
+                new_employee.type.push(item);
+            }
+        }
         new_employee.save();
         return res.send({
             status: true,
