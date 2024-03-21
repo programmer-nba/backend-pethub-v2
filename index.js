@@ -20,6 +20,9 @@ app.use("/pethub/member", require("./router/user/member"));
 // Product
 app.use("/pethub/product", require("./router/product/index"));
 app.use("/pethub/product/shop", require("./router/product/product.store"));
+// History Product
+app.use("/pethub/product/history", require("./router/product/product.history"));
+
 // Brand
 app.use("/pethub/brand", require("./router/brand/index"));
 

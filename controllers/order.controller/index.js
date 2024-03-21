@@ -29,7 +29,7 @@ exports.findAll = async (req, res) => {
 exports.findById = async (req, res) => {
     try {
         const id = req.params.id;
-        const order = await Orders.findById(id);
+        const order = await Orders.findOne({ _id: id });
         if (order) {
             return res.status(200).send({ status: true, data: order });
         } else {
