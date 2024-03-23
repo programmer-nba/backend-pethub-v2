@@ -32,6 +32,7 @@ const ProductSchema = new mongoose.Schema({
     },
     product_unit: {
         detail: { type: String, required: false, default: "" },
+        barcode: { type: String, required: false, default: "" },
         amount: { type: Number, required: false, default: 0 }
     },
     product_status: { type: String, required: false, default: "active" },
@@ -71,6 +72,7 @@ const validate = (data) => {
         },
         product_unit: Joi.object({
             detail: Joi.string().default(""),
+            barcode: Joi.string().default(""),
             amount: Joi.number().default(0)
         }),
         product_status: Joi.string().default("active"),

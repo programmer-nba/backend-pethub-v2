@@ -99,7 +99,6 @@ const checkEmployee = async (req, res) => {
 router.get("/me", auth, async (req, res) => {
     const { decoded } = req;
     try {
-        console.log("call me", decoded);
         if (decoded && decoded.row === "admin") {
             const id = decoded._id;
             Admins.findOne({ _id: id })

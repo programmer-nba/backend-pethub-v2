@@ -1,13 +1,14 @@
-const { Members, validate } = require("../../model/user/member.model");
+const { Members } = require("../../model/user/member.model");
+const dayjs = require("dayjs");
 
 exports.create = async (req, res) => {
     try {
-        const { error } = validate(req.body);
-        if (error) {
-            return res
-                .status(400)
-                .send({ status: false, message: error.details[0].message });
-        }
+        // const { error } = validate(req.body);
+        // if (error) {
+        //     return res
+        //         .status(400)
+        //         .send({ status: false, message: error.details[0].message });
+        // }
         const user = await Members.findOne({
             tel: req.body.tel,
         });
@@ -16,9 +17,8 @@ exports.create = async (req, res) => {
                 status: false,
                 message: "มีชื่อผู้ใช้งานนี้ในระบบเเล้ว",
             });
-        await new Members({
-            ...req.body,
-        }).save();
+        const member = await Members.create(req.body);
+        member.save();
         return res.status(200).send({ message: "สร้างข้อมูลสำเร็จ", status: true });
     } catch (err) {
         return res.status(500).send({ status: false, message: "มีบางอย่างผิดพลาด" });
