@@ -1,33 +1,27 @@
-const { Products, validate } = require("../../model/product/product.model");
+const { Promotions, validate } = require("../../model/pos/promotion.model");
 
 exports.create = async (req, res) => {
     try {
         const { error } = validate(req.body);
-        if (error) {
+        if (error)
             return res.status(400).send({ status: false, message: error.details[0].message });
-        } else {
-            const product = await Products.findOne({ product_barcode: req.body.product_barcode });
-            if (product) {
-                return res.status(403).send({ status: false, message: "สินค้านี้มีในระบบแล้ว" });
-            } else {
-                await new Products({
-                    ...req.body,
-                }).save();
-                return res.status(201).send({ message: "สร้างรายงานใหม่เเล้ว", status: true });
-            }
-        }
+        const promotion = await new Promotions({
+            ...req.body,
+        });
+        promotion.save();
+        return res.status(201).send({ message: "สร้างรายงานใหม่เเล้ว", status: true, data: promotion });
     } catch (err) {
         return res.status(500).send({ message: "มีบางอย่างผิดพลาด", status: false });
     }
 };
 
-exports.getProductAll = async (req, res) => {
+exports.getPromotionAll = async (req, res) => {
     try {
-        const product = await Products.find();
-        if (product) {
+        const promotion = await Promotions.find();
+        if (promotion) {
             return res
                 .status(200)
-                .send({ message: "ดึงข้อมูลสำเร็จ", status: true, data: product });
+                .send({ message: "ดึงข้อมูลสำเร็จ", status: true, data: promotion });
         } else {
             return res
                 .status(500)
@@ -38,14 +32,13 @@ exports.getProductAll = async (req, res) => {
     }
 };
 
-
-exports.getProductById = async (req, res) => {
+exports.getPromotionById = async (req, res) => {
     try {
-        const product = await Products.findOne({ _id: req.params.id });
-        if (product) {
+        const promotion = await Promotions.findOne({ _id: req.params.id });
+        if (promotion) {
             return res
                 .status(200)
-                .send({ message: "ดึงข้อมูลสำเร็จ", status: true, data: product });
+                .send({ message: "ดึงข้อมูลสำเร็จ", status: true, data: promotion });
         } else {
             return res
                 .status(500)
@@ -59,9 +52,9 @@ exports.getProductById = async (req, res) => {
 exports.getByBarcode = async (req, res) => {
     try {
         const barcode = req.params.barcode;
-        const product = await Products.findOne({ product_barcode: barcode });
-        if (product) {
-            return res.status(200).send({ status: true, data: product });
+        const promotion = await Promotions.findOne({ product_barcode: barcode });
+        if (promotion) {
+            return res.status(200).send({ status: true, data: promotion });
         } else {
             return res
                 .status(400)
@@ -72,11 +65,10 @@ exports.getByBarcode = async (req, res) => {
     }
 };
 
-
-exports.updateProduct = async (req, res) => {
+exports.updatePromotion = async (req, res) => {
     try {
-        const product = await Products.findByIdAndUpdate(req.params.id, req.body, { useFindAndModify: false, });
-        if (product) {
+        const promotion = await Promotions.findByIdAndUpdate(req.params.id, req.body, { useFindAndModify: false, });
+        if (promotion) {
             return res
                 .status(200)
                 .send({ message: "แก้ไขข้อมูลสำเร็จ", status: true });
@@ -90,11 +82,11 @@ exports.updateProduct = async (req, res) => {
     }
 };
 
-exports.deleteProduct = async (req, res) => {
+exports.deletePromotion = async (req, res) => {
     try {
         const id = req.params.id;
-        const product = await Products.findByIdAndDelete(id);
-        if (!product) {
+        const promotion = await Promotions.findByIdAndDelete(id, { useFindAndModify: false, });
+        if (!promotion) {
             return res.status(404).send({ status: false, message: "ไม่พบข้อมูล" });
         } else {
             return res

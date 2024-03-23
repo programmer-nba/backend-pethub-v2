@@ -34,9 +34,10 @@ app.use("/pethub/stock", require("./router/shop/stock"));
 app.use("/pethub/order", require("./router/pos/order"));
 
 // POS
-app.use("/pethub/preorder/store", require("./router/pos/preorder.store"))
+app.use("/pethub/preorder/store", require("./router/pos/preorder.store"));
 app.use("/pethub/preorder/shop", require("./router/pos/preorder.shop"));
 app.use("/pethub/invoice-tax", require("./router/pos/invoice.tax"));
+app.use("/pethub/promotion", require("./router/pos/promotion"));
 
 const port = process.env.PORT || 4040;
 app.listen(port, () => {
