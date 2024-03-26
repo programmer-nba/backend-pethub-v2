@@ -67,16 +67,26 @@ exports.getByBarcode = async (req, res) => {
 
 exports.updatePromotion = async (req, res) => {
     try {
-        const promotion = await Promotions.findByIdAndUpdate(req.params.id, req.body, { useFindAndModify: false, });
-        if (promotion) {
-            return res
-                .status(200)
-                .send({ message: "แก้ไขข้อมูลสำเร็จ", status: true });
-        } else {
-            return res
-                .status(500)
-                .send({ message: "แก้ไขข้อมูลไม่สำเร็จ", status: false });
-        }
+        const id = req.params.id;
+        Promotions.findByIdAndUpdate(id, req.body, { useFindAndModify: false })
+            .then((data) => {
+                if (!data) {
+                    res.status(404).send({
+                        message: `ไม่สามารถเเก้ไขข้อมูลนี้ได้`,
+                        status: false,
+                    });
+                } else
+                    res.send({
+                        message: "แก้ไขข้อมูลนี้เรียบร้อยเเล้ว",
+                        status: true,
+                    });
+            })
+            .catch((err) => {
+                res.status(500).send({
+                    message: "มีบ่างอย่างผิดพลาด",
+                    status: false,
+                });
+            });
     } catch (err) {
         return res.status(500).send({ status: false, message: "มีบางอย่างผิดพลาด" });
     }
