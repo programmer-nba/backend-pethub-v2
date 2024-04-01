@@ -7,8 +7,8 @@ const PromotionSchema = new mongoose.Schema({
     product_barcode: { type: Array, required: false, default: [] },
     product_price: { type: Number, required: false, default: 0 },
     product_amount: { type: Number, required: false, default: 0 },
-    promotion_start: { type: Date, required: true, default: Date.now() },
-    promotion_end: { type: Date, required: true, default: Date.now() },
+    promotion_start: { type: Date, required: false, default: "" },
+    promotion_end: { type: Date, required: false, default: "" },
     // promotion_detail: { type: String, required: false, default: "ไม่มี" },
 });
 
@@ -21,8 +21,8 @@ const validate = (data) => {
         product_barcode: Joi.array().default([]),
         product_price: Joi.number().default(0),
         product_amount: Joi.number().default(0),
-        promotion_start: Joi.date().required().label("กรอกวันที่เริ่ม"),
-        promotion_end: Joi.date().required().label("กรอกวันที่สิ้นสุด"),
+        promotion_start: Joi.date().default(""),
+        promotion_end: Joi.date().default(""),
         // promotion_detail: Joi.string().default("ไม่มี"),
     });
     return schema.validate(data);
